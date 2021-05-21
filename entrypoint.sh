@@ -11,7 +11,7 @@ if [[ "${GITHUB_EVENT_NAME}" == "pull_request" ]]; then
 fi
 
 REPOSITORY_NAME=$(basename "${GITHUB_REPOSITORY}")
-BRANCH_NAME=${GITHUB_REF#refs/heads/}
+BRANCH_NAME=${GITHUB_HEAD_REF}
 
 [[ ! -z ${INPUT_PASSWORD} ]] && SONAR_PASSWORD="${INPUT_PASSWORD}" || SONAR_PASSWORD=""
 
