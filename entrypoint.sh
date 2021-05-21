@@ -11,6 +11,7 @@ if [[ "${GITHUB_EVENT_NAME}" == "pull_request" ]]; then
 fi
 
 REPOSITORY_NAME=$(basename "${GITHUB_REPOSITORY}")
+BRANCH_NAME=${GITHUB_REF#refs/heads/}
 
 [[ ! -z ${INPUT_PASSWORD} ]] && SONAR_PASSWORD="${INPUT_PASSWORD}" || SONAR_PASSWORD=""
 
@@ -28,10 +29,12 @@ if [[ ! -f "${GITHUB_WORKSPACE}/sonar-project.properties" ]]; then
     -Dsonar.password=${SONAR_PASSWORD} \
     -Dsonar.sources=. \
     -Dsonar.sourceEncoding=UTF-8
+    -Dsonar.branch.name=${BRANCH_NAME}
 else
   sonar-scanner \
     -Dsonar.host.url=${INPUT_HOST} \
     -Dsonar.projectBaseDir=${INPUT_PROJECTBASEDIR} \
     -Dsonar.login=${INPUT_LOGIN} \
     -Dsonar.password=${SONAR_PASSWORD}
+    -Dsonar.branch.name=${BRANCH_NAME}
 fi
